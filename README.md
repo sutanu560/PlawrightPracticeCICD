@@ -71,3 +71,19 @@ Tests run against the official Playwright TodoMVC demo:
 [https://demo.playwright.dev/todomvc/](https://demo.playwright.dev/todomvc/)
 
 No login or API keys required.
+
+## CI/CD (Jenkins on AWS EC2)
+
+The repo includes a **Jenkins pipeline** that:
+
+- Triggers on **push to `main`** (via GitHub webhook)
+- Runs Playwright tests (Chromium) in headless mode
+- Publishes the HTML report in Jenkins
+- Sends an email with build status and a link to the report
+
+**Setup:** See [docs/JENKINS_CICD_SETUP.md](docs/JENKINS_CICD_SETUP.md) for:
+
+- Installing Jenkins on EC2
+- Node.js and required plugins
+- GitHub webhook and email (SMTP) configuration
+- Creating the pipeline job from the `Jenkinsfile`
