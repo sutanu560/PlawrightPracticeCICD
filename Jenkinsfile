@@ -48,7 +48,8 @@ pipeline {
             reportName: 'Playwright HTML Report',
             reportTitles: 'Playwright Report',
             allowMissing: true,
-            keepAll: true
+            keepAll: true,
+            alwaysLinkToLastBuild: true
           ])
           archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
           archiveArtifacts artifacts: 'test-results/**', allowEmptyArchive: true
