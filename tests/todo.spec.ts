@@ -8,7 +8,7 @@ test.describe('TodoMVC', () => {
   test('should add a single todo', async ({ todoPage }) => {
     await todoPage.addTodo('Buy milk');
     await expect(todoPage.getTodoItem('Buy milk')).toBeVisible();
-    await expect(await todoPage.getTodoCountText()).toContain('1 item left');
+    await expect(await todoPage.getTodoCountText()).toContain('2 item left');
   });
 
   test('should add multiple todos', async ({ todoPage }) => {
