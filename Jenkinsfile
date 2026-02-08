@@ -75,7 +75,7 @@ pipeline {
               <p>Triggered by push to <b>main</b>.</p>
             """,
             mimeType: 'text/html',
-            to: recipients,
+            to: 'sutanu560@gmail.com',
             attachLog: true
           )
         }
