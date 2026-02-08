@@ -17,6 +17,7 @@ pipeline {
 
   environment {
     CI = 'true'
+    PLAYWRIGHT_BROWSERS_PATH = '0'
   }
 
   stages {
@@ -28,13 +29,16 @@ pipeline {
 
     stage('Install Dependencies') {
       steps {
-        sh 'npm ci'
+        sh '''
+          npm ci
+          npx playwright install chromium
+        '''
       }
     }
 
     stage('Run Playwright Tests') {
       steps {
-        sh 'npx playwright test --project=chromium'
+         sh 'npx playwright test --project=chromium'
       }
       post {
         always {
