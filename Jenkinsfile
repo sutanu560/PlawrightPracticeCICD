@@ -18,6 +18,7 @@ pipeline {
   environment {
     CI = 'true'
     PLAYWRIGHT_BROWSERS_PATH = '0'
+    EMAIL_RECIPIENTS = 'sutanu560@gmail.com'
   }
 
   stages {
