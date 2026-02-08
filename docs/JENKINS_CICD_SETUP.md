@@ -61,22 +61,44 @@ Open `http://<EC2-PUBLIC-IP>:8080`, paste the password, complete setup, and inst
 
 ---
 
-## 4. Install Node.js on the EC2 (for Playwright)
+## 4. Install Node.js for Jenkins (fix "npm: not found")
 
-Jenkins will run `npm` and `npx` on the same machine, so Node must be installed globally (or use a Node tool in Jenkins).
+The pipeline needs `node` and `npm` in PATH. Use **one** of these two options.
 
+### Option A – NodeJS plugin (recommended)
+
+1. **Manage Jenkins → Manage Plugins → Available** → search **"NodeJS"** → Install, restart if needed.
+2. **Manage Jenkins → Global Tool Configuration** → section **NodeJS** → **Add NodeJS**:
+   - Name: **`NodeJS`** (must match the name in the Jenkinsfile).
+   - Install automatically: tick.
+   - Version: choose **20.x** (e.g. "NodeJS 20.11.0").
+   - Save.
+
+The pipeline uses `tools { nodejs 'NodeJS' }`, so every run will get Node/npm in PATH. No need to install Node on the server for this option.
+
+### Option B – Install Node on the server (for jenkins user)
+
+If you prefer not to use the plugin, install Node so the **jenkins** user can run it:
+
+**Amazon Linux 2:**
 ```bash
 curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
 sudo yum install -y nodejs
-# or on Ubuntu:
-# curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-# sudo apt install -y nodejs
-
-node -v
-npm -v
+sudo -u jenkins node -v
+sudo -u jenkins npm -v
 ```
 
-Ensure the Jenkins process can use this Node (e.g. run Jenkins as a user that has `node` and `npm` in PATH, or use full path in the pipeline). Alternatively, in Jenkins **Manage Jenkins → Global Tool Configuration** add **NodeJS** and select it in the job.
+**Ubuntu:**
+```bash
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+sudo -u jenkins node -v
+sudo -u jenkins npm -v
+```
+
+If `sudo -u jenkins node -v` fails, use **Option A (NodeJS plugin)** instead, or create symlinks so `/usr/bin/node` and `/usr/bin/npm` exist.
+
+If you use Option B only (no NodeJS plugin), remove the `tools { nodejs 'NodeJS' }` line from the Jenkinsfile.
 
 ---
 
@@ -86,6 +108,7 @@ Ensure the Jenkins process can use this Node (e.g. run Jenkins as a user that ha
 
 - **Git**
 - **Pipeline**
+- **NodeJS** (for Option A in section 4)
 - **GitHub Plugin** (for “Build when a change is pushed to GitHub”)
 - **Pipeline: Stage View**
 - **Email Extension** (for `emailext` in the pipeline)

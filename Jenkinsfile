@@ -1,6 +1,9 @@
 pipeline {
   agent any
 
+  // Requires "NodeJS" plugin + a NodeJS tool named "NodeJS" in Manage Jenkins → Global Tool Configuration
+  tools { nodejs 'NodeJS' }
+
   options {
     buildDiscarder(logRotator(numToKeepStr: '10'))
     timeout(time: 30, unit: 'MINUTES')
@@ -11,7 +14,7 @@ pipeline {
     // Backup: poll main every 5 min if webhook is not set up
     pollSCM('H/5 * * * *')
   }
-
+  
   environment {
     CI = 'true'
   }
