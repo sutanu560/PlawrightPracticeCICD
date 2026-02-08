@@ -14,7 +14,7 @@ pipeline {
     // Backup: poll main every 5 min if webhook is not set up
     pollSCM('H/5 * * * *')
   }
-  
+
   environment {
     CI = 'true'
   }
@@ -29,13 +29,6 @@ pipeline {
     stage('Install Dependencies') {
       steps {
         sh 'npm ci'
-      }
-    }
-
-    stage('Install Playwright Browsers') {
-      steps {
-        // Install only Chromium for faster CI; use 'npx playwright install' for all browsers
-        sh 'npx playwright install chromium --with-deps'
       }
     }
 
