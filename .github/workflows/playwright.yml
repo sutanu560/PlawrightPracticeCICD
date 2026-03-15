@@ -8,6 +8,7 @@ on:
   schedule:
     # Runs every 5 minutes (polls main/master to mirror Jenkins' H/5 pollSCM)
     - cron: '*/5 * * * *'
+  workflow_dispatch:
 
 env:
   PLAYWRIGHT_BROWSERS_PATH: '0'
